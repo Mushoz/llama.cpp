@@ -102,7 +102,6 @@ int main(int argc, char ** argv) {
     if (vocab_type_tgt != vocab_type_dft) {
         LOG_ERR("%s: draft model vocab type must match target model to use speculation but ", __func__);
         LOG_ERR("vocab_type_dft = %d while vocab_type_tgt = %d\n", vocab_type_dft, vocab_type_tgt);
-        return 1;
     }
 
     if (
@@ -112,7 +111,6 @@ int main(int argc, char ** argv) {
         llama_vocab_eos(vocab_tgt) != llama_vocab_eos(vocab_dft)
     ) {
         LOG_ERR("%s: draft model special tokens must match target model to use speculation\n", __func__);
-        return 1;
     }
 
     {
@@ -126,7 +124,6 @@ int main(int argc, char ** argv) {
             LOG_ERR("%s: draft model vocab must closely match target model to use speculation but ", __func__);
             LOG_ERR("target vocab size %d does not match draft vocab size %d - difference %d, max allowed %d\n",
                     n_vocab_tgt, llama_vocab_n_tokens(vocab_dft), vocab_diff, SPEC_VOCAB_MAX_SIZE_DIFFERENCE);
-            return 1;
         }
 
         for (int i = SPEC_VOCAB_CHECK_START_TOKEN_ID; i < std::min(n_vocab_tgt, n_vocab_dft); ++i) {
@@ -137,7 +134,6 @@ int main(int argc, char ** argv) {
                 LOG_ERR("token %d content differs - target '%s', draft '%s'\n", i,
                         common_token_to_piece(ctx_tgt, i).c_str(),
                         common_token_to_piece(ctx_dft, i).c_str());
-                return 1;
             }
         }
     }
