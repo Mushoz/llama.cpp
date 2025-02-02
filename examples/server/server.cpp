@@ -1883,8 +1883,6 @@ struct server_context {
 
             if (!common_speculative_are_compatible(ctx, llama_init_dft.context.get())) {
                 SRV_ERR("the draft model '%s' is not compatible with the target model '%s'\n", params_base.speculative.model.c_str(), params_base.model.c_str());
-
-                return false;
             }
 
             const int n_ctx_dft = llama_n_ctx(llama_init_dft.context.get());
